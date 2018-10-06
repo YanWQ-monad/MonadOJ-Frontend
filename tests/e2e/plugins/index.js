@@ -3,7 +3,8 @@ const webpack = require('@cypress/webpack-preprocessor')
 
 module.exports = (on, config) => {
   on('file:preprocessor', webpack({
-    webpackOptions: require('@vue/cli-service/webpack.config'),
+    // This line cases test:e2e unable to run
+    // webpackOptions: require('@vue/cli-service/webpack.config'),
     watchOptions: {}
   }))
 
