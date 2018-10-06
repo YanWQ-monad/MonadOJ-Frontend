@@ -1,0 +1,29 @@
+dist: trusty
+
+branches:
+  only:
+  - master
+  - develop
+  - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
+
+language: node_js
+
+cache:
+  directories:
+  - "$HOME/.npm"
+
+node_js:
+  - 10
+
+install:
+  - npm ci
+  - npm build
+
+script:
+  - npm run test:unit
+  - npm run test:e2e-ci
+
+after_success:
+  - npm install coveralls codacy-coverage
+  - cat coverage/lcov.info | npx coveralls
+  - cat coverage/lcov.info | npx codacy-coverage
