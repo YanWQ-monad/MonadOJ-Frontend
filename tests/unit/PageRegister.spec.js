@@ -8,7 +8,7 @@ describe('Register.vue', () => {
   const saltPassword = saltedPassword(password)
 
   beforeEach(() => {
-    store.commit('initForm', {
+    store.commit('initFormCache', {
       form: {},
       type: 'null'
     })
