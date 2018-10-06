@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div>
     <h1>{{ title }}</h1>
     <p>{{ content }}</p>
   </div>
@@ -8,12 +8,10 @@
 <script>
 export default {
   name: 'IndexPage',
-  data () {
-    return {
-      title: 'Monad OJ',
-      content: 'Welcome to Monad OJ'
-    }
-  }
+  data: () => ({
+    title: 'Monad OJ',
+    content: 'Welcome to Monad OJ'
+  })
 }
 </script>
 
