@@ -1,6 +1,9 @@
 <template>
   <div class="ui fixed menu">
     <router-link :to="{ name: 'Home' }" class="item" exact>HOME</router-link>
+    <div class="right menu">
+      <router-link :to="{ name: 'Register' }" class="item">Register</router-link>
+    </div>
   </div>
 </template>
 

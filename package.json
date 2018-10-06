@@ -13,6 +13,7 @@
     "test:unit": "vue-cli-service test:unit --coverage"
   },
   "dependencies": {
+    "crypto-js": "^3.1.9-1",
     "semantic-ui": "^2.4.0",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1",
