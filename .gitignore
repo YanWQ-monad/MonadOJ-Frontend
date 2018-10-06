@@ -25,3 +25,7 @@ yarn-error.log*
 
 # Semantic package file
 semantic/
+
+# Coverage file
+coverage/
+

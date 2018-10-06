@@ -23,3 +23,7 @@ script:
   - npm run test:unit
   - npm run test:e2e-ci
 
+after_success:
+  - npm install coveralls codacy-coverage --save-dev
+  - cat coverage/lcov.info | npx coveralls
+  - cat coverage/lcov.info | npx codacy-coverage
