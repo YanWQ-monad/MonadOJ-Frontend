@@ -26,6 +26,7 @@ const store = new Vuex.Store({
 
 export default store
 
+/* istanbul ignore next */
 if (module.hot) {
   module.hot.accept([
     './mutations',
