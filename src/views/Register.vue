@@ -16,8 +16,7 @@
     <FormCacheTool v-model="form" ref="cacher" type="register" />
     <button class="ui button fluid primary" type="submit">Register</button>
     <ErrorShow
-      :main="error.main"
-      :details="error.details"
+      ref="error"
       icon="exclamation"
       level="warning"
     />
@@ -33,24 +32,17 @@ import { ajax } from '@/api'
 const email_re = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i
 
 export default {
-  name: 'Register',
+  name: 'RegisterPage',
   data: () => ({
     form: {
       email: '',
       username: '',
       password: ''
-    },
-    error: {
-      main: '',
-      details: []
     }
   }),
   methods: {
     submitRegister () {
-      this.$el.querySelectorAll('.field.error')
-        .forEach(e => e.classList.remove('error'))
-      this.error.details = []
-      this.error.main = ''
+      this.cleanError()
       if (!email_re.test(this.form.email.trim())) {
         this.addErrorDetail('email', 'Email must be a valid email address')
       }
@@ -60,8 +52,8 @@ export default {
       if (this.form.password.length < 8) {
         this.addErrorDetail('password', 'Password must be at least 8 characters long')
       }
-      if (this.error.details.length > 0) {
-        this.error.main = 'Please fix the fields error'
+      if (this.$refs.error.hasError()) {
+        this.$refs.error.setMainError('Please fix the fields error')
         return
       }
 
@@ -77,7 +69,12 @@ export default {
     addErrorDetail (field, error) {
       this.$el.querySelectorAll('input[name="' + field + '"]')[0]
         .parentElement.classList.add('error')
-      this.error.details.push(error)
+      this.$refs.error.addErrorDetail(error)
+    },
+    cleanError () {
+      this.$el.querySelectorAll('.field.error')
+        .forEach(e => e.classList.remove('error'))
+      this.$refs.error.cleanError()
     }
   },
   components: {

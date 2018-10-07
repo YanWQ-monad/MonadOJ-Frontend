@@ -24,14 +24,6 @@
 export default {
   name: 'ErrorShow',
   props: {
-    main: {
-      type: String,
-      default: ''
-    },
-    details: {
-      type: [ String, Array ],
-      default: ''
-    },
     icon: {
       type: String,
       default: null
@@ -39,6 +31,25 @@ export default {
     level: {
       type: String,
       dafault: ''
+    }
+  },
+  data: () => ({
+    main: '',
+    details: []
+  }),
+  methods: {
+    addErrorDetail (msg) {
+      this.details.push(msg)
+    },
+    setMainError (error) {
+      this.main = error
+    },
+    cleanError () {
+      this.main = ''
+      this.details = []
+    },
+    hasError () {
+      return this.details.length > 0
     }
   }
 }
