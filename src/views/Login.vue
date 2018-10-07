@@ -1,10 +1,6 @@
 <template>
-  <form class="ui form segment" @submit.prevent="submitRegister">
-    <h1>Register</h1>
-    <div class="inline field">
-      <label>Email</label>
-      <input type="text" name="email" v-model="form.email" placeholder="Enter your email">
-    </div>
+  <form class="ui form segment" @submit.prevent="submitLogin">
+    <h1>Login</h1>
     <div class="inline field">
       <label>Username</label>
       <input type="text" name="username" v-model="form.username" placeholder="Enter your username">
@@ -13,8 +9,8 @@
       <label>Password</label>
       <input type="password" name="password" v-model="form.password" placeholder="Enter your password">
     </div>
-    <FormCacheTool v-model="form" ref="cacher" type="register" />
-    <button class="ui button fluid primary" type="submit">Register</button>
+    <FormCacheTool v-model="form" ref="cacher" type="login" />
+    <button class="ui button fluid primary" type="submit">Login</button>
     <ErrorShow
       ref="error"
       icon="exclamation"
@@ -29,23 +25,18 @@ import ErrorShow from '@/components/ErrorShow.vue'
 import { saltedPassword } from '@/utils/mappings'
 import { ajax } from '@/api'
 
-const email_re = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i
 
 export default {
-  name: 'RegisterPage',
+  name: 'LoginPage',
   data: () => ({
     form: {
-      email: '',
       username: '',
       password: ''
     }
   }),
   methods: {
-    submitRegister () {
+    submitLogin () {
       this.cleanError()
-      if (!email_re.test(this.form.email.trim())) {
-        this.addErrorDetail('email', 'Email must be a valid email address')
-      }
       if (this.form.username.trim().length === 0) {
         this.addErrorDetail('username', 'Username could not be empty')
       }
@@ -58,8 +49,7 @@ export default {
       }
 
       const password = saltedPassword(this.form.password)
-      ajax('/api/auth/register', 'POST', {
-        email: this.form.email.trim(),
+      ajax('/api/auth/login', 'POST', {
         username: this.form.username.trim(),
         password
       }).then(user => {

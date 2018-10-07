@@ -30,10 +30,10 @@ const mutations = {
   updateFormCache (state, {form, type}) {
     if (state.type !== type) {
       console.error('Cannot update form cache without initial')
-      return
+    } else {
+      state.form = Object.assign({}, form)
+      state.lastUpdate = +Date.now()
     }
-    state.form = Object.assign({}, form)
-    state.lastUpdate = +Date.now()
   },
   removeFormCache (state) {
     state.form = {}

@@ -11,5 +11,8 @@ import '../semantic/dist/semantic.min.js'
 new Vue({
   router,
   store,
-  render: h => h(App)
+  render: h => h(App),
+  created () {
+    this.$store.dispatch('auth/init')
+  }
 }).$mount('#app')
