@@ -1,10 +1,10 @@
 import { mount } from '@vue/test-utils'
-import Register from '@/views/Register.vue'
+import Login from '@/views/Login.vue'
 import waitForExpect from 'wait-for-expect'
 import { saltedPassword } from '@/utils/mappings'
 import store from '@/vuex'
 
-describe('Register.vue', () => {
+describe('Login.vue', () => {
   const password = 'PASSWORD FOR TEST ONLY'
   const saltPassword = saltedPassword(password)
   const user_information = {
@@ -15,7 +15,11 @@ describe('Register.vue', () => {
     name: "Monad",
     password: "********",
     uid: 1000,
+    error: null
+  }
+  const login_response = {
     error: null,
+    msg: 'Login success',
     token: 'TEMP TOKEN'
   }
 
@@ -30,31 +34,31 @@ describe('Register.vue', () => {
   })
 
   const inputFullField = (wrapper) => {
-    wrapper.find('input[name="email"]').setValue('YanWQmonad@gmail.com')
     wrapper.find('input[name="username"]').setValue('Monad')
     wrapper.find('input[name="password"]').setValue(password)
   }
 
   it('update vm data', () => {
-    const wrapper = mount(Register, { store })
+    const wrapper = mount(Login, { store })
     inputFullField(wrapper)
 
-    expect(wrapper.vm.form.email).toBe('YanWQmonad@gmail.com')
     expect(wrapper.vm.form.username).toBe('Monad')
     expect(wrapper.vm.form.password).toBe(password)
   })
 
-  it('submit register fetch', done => {
+  it('submit login fetch', done => {
     const $router = {
       go: jest.fn()
     }
-    const wrapper = mount(Register, {
+    const wrapper = mount(Login, {
       store,
       mocks: { $router }
     })
     inputFullField(wrapper)
 
-    fetch.mockResponse(JSON.stringify(user_information))
+    fetch.mockResponses(
+      [ JSON.stringify(login_response) ],
+      [ JSON.stringify(user_information) ])
 
     wrapper.trigger('submit')
 
@@ -62,7 +66,6 @@ describe('Register.vue', () => {
       expect(fetch).toHaveBeenCalledTimes(2)
 
       const requestBody = JSON.parse(fetch.mock.calls[0][1].body)
-      expect(requestBody.email).toBe('YanWQmonad@gmail.com')
       expect(requestBody.username).toBe('Monad')
       expect(requestBody.password).toBe(saltPassword)
 
@@ -73,20 +76,8 @@ describe('Register.vue', () => {
     })
   })
 
-  it('alarm on invalid email', () => {
-    const wrapper = mount(Register, { store })
-    inputFullField(wrapper)
-    wrapper.find('input[name="email"]').setValue('invalid email')
-
-    wrapper.trigger('submit')
-    expect(fetch).toHaveBeenCalledTimes(0)
-
-    expect(wrapper.find('.field.error > label').text()).toBe('Email')
-    expect(wrapper.find('.message.warning li').text()).toBe('Email must be a valid email address')
-  })
-
   it('alarm on empty username', () => {
-    const wrapper = mount(Register, { store })
+    const wrapper = mount(Login, { store })
     inputFullField(wrapper)
     wrapper.find('input[name="username"]').setValue('')
     wrapper.trigger('submit')
@@ -97,7 +88,7 @@ describe('Register.vue', () => {
   })
 
   it('alarm on weak password', () => {
-    const wrapper = mount(Register, { store })
+    const wrapper = mount(Login, { store })
     inputFullField(wrapper)
     wrapper.find('input[name="password"]').setValue('qwerty')
     wrapper.trigger('submit')
@@ -111,7 +102,7 @@ describe('Register.vue', () => {
     const $router = {
       go: jest.fn()
     }
-    const wrapper = mount(Register, {
+    const wrapper = mount(Login, {
       store,
       mocks: { $router }
     })
@@ -122,7 +113,9 @@ describe('Register.vue', () => {
     expect(fetch).toHaveBeenCalledTimes(0)
     expect(wrapper.find('.message.warning li').text()).toBe('Password must be at least 8 characters long')
 
-    fetch.mockResponse(JSON.stringify(user_information))
+    fetch.mockResponses(
+      [ JSON.stringify(login_response) ],
+      [ JSON.stringify(user_information) ])
     wrapper.find('input[name="password"]').setValue(password)
     wrapper.trigger('submit')
 
@@ -135,12 +128,12 @@ describe('Register.vue', () => {
   })
 
   it('alarm on value error', done => {
-    const wrapper = mount(Register, { store })
+    const wrapper = mount(Login, { store })
     inputFullField(wrapper)
 
     const error_response = {
-      error: 'value:invalid',
-      msg: 'Username is already existed'
+      error: 'auth:user_not_find',
+      msg: 'Username : No such user'
     }
 
     fetch.mockResponseOnce(JSON.stringify(error_response))
@@ -149,7 +142,7 @@ describe('Register.vue', () => {
     waitForExpect(() => {
       expect(fetch).toHaveBeenCalledTimes(1)
       expect(wrapper.find('.field.error > label').text()).toBe('Username')
-      expect(wrapper.find('.message.warning li').text()).toBe('Username is already existed')
+      expect(wrapper.find('.message.warning li').text()).toBe('Username : No such user')
       done()
     })
   })
