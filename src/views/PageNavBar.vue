@@ -1,6 +1,11 @@
 <template>
   <div class="ui fixed menu">
     <router-link :to="{ name: 'Home' }" class="item" exact>HOME</router-link>
+    <router-link
+      :to="{ name: 'Admin Default' }"
+      class="item"
+      v-if="loggedIn && user.admin"
+    >Management</router-link>
     <div class="right menu">
       <div class="ui simple dropdown item" v-if="loggedIn">
         {{ user.name }} <i class="dropdown icon"></i>
