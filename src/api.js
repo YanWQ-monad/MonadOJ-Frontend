@@ -1,3 +1,5 @@
+import store from '@/vuex'
+
 export const websocket = (url, data) => {
   const secure = location.protocol === 'https:' ? 's' : ''
   let uri = 'ws' + secure + '://' + location.host + url
@@ -5,18 +7,19 @@ export const websocket = (url, data) => {
     const params = new URLSearchParams(Object.entries(data))
     uri = uri + '?' + params.toString()
   }
-  let ws = new WebSocket(uri)
+  const ws = new WebSocket(uri)
   return ws
 }
 
 export const ajax = (url, method, data, options) => {
-  let body = Object.assign({
+  const body = Object.assign({
     method: method,
     cache: 'no-cache',
     credentials: 'same-origin',
     headers: {}
   }, options)
 
+  body.headers['Authorization'] = store.state.auth.token || ''
   if (method === 'POST' || method === 'PUT') {
     if (data instanceof FormData) {
       body.body = data

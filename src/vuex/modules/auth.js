@@ -32,14 +32,14 @@ const actions = {
     if (token === null) return
 
     commit('setToken', { token })
-    ajax('/api/auth/check_token', 'GET', { token }).then(data => {
+    ajax('/api/auth/check_token', 'GET').then(data => {
       commit('setUser', { user: data })
     }).catch(() => {
       commit('setToken', { token: null })
     })
   },
   setToken ({ commit }, { token }) {
-    ajax('/api/auth/check_token', 'GET', { token }).then(data => {
+    ajax('/api/auth/check_token', 'GET').then(data => {
       commit('setToken', { token })
       commit('setUser', { user: data })
       localStorage.setItem('token', token)
