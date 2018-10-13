@@ -5,17 +5,26 @@
       <router-view/>
     </div>
     <PageFooter />
+    <keep-alive>
+      <AlertSingletion ref="alert" />
+    </keep-alive>
   </div>
 </template>
 
 <script>
+import Vue from 'vue'
 import PageNavBar from '@/views/PageNavBar.vue'
 import PageFooter from '@/views/PageFooter.vue'
+import AlertSingletion from '@/components/Alert.vue'
 
 export default {
+  mounted () {
+    Vue.prototype.$alert = this.$refs.alert
+  },
   components: {
     PageNavBar,
-    PageFooter
+    PageFooter,
+    AlertSingletion
   }
 }
 </script>
@@ -25,7 +34,7 @@ export default {
 #app > .text.container:before {
   content: '';
   display: block;
-  padding-top: 3.2em;
+  padding-top: 3.6em;
 }
 
 /* For footer */
@@ -38,6 +47,7 @@ export default {
 #app > .text.container {
   max-width: 1000px !important;
   min-height: 100%;
+  padding-bottom: 1em;
 }
 
 #app {
