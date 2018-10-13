@@ -39,10 +39,12 @@ const actions = {
     })
   },
   setToken ({ commit }, { token }) {
+    commit('setToken', { token })
     ajax('/api/auth/check_token', 'GET').then(data => {
-      commit('setToken', { token })
       commit('setUser', { user: data })
       localStorage.setItem('token', token)
+    }).catch(() => {
+      commit('setToken', { token: '' })
     })
   }
 }
