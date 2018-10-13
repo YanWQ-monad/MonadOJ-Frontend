@@ -32,6 +32,7 @@ export default new Router({
       path: '/manage',
       name: 'Admin Navigation',
       component: AdminNavigation,
+      meta: { requiresAdmin: true },
       children: [
         {
           path: '',
