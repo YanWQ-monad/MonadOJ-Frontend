@@ -7,12 +7,17 @@ const $route = {
   name: 'Home'
 }
 
+const $alert = {
+  addMessage: jest.fn()
+}
+
 const default_param = {
   stubs: {
     RouterLink: RouterLinkStub
   },
-  mock: {
-    $route
+  mocks: {
+    $route,
+    $alert
   },
   store
 }

@@ -37,6 +37,7 @@ export default {
   methods: {
     logout () {
       this.$store.commit('auth/logout')
+      this.$alert.addMessage('success', 'Logout', 'You have been logged out')
     }
   }
 }
