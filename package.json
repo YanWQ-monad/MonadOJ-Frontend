@@ -13,10 +13,14 @@
     "test:unit": "vue-cli-service test:unit --coverage"
   },
   "dependencies": {
+    "codemirror": "^5.40.2",
     "crypto-js": "^3.1.9-1",
+    "katex": "^0.10.0-rc.1",
     "lodash": "^4.17.11",
+    "marked": "^0.5.1",
     "semantic-ui": "^2.4.0",
     "vue": "^2.5.17",
+    "vue-codemirror": "^4.0.5",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"
   },
