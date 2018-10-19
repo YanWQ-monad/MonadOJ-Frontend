@@ -14,14 +14,13 @@ cache:
 
 node_js:
   - 10
-
-install:
-  - npm ci
-  - npm build
+  - 9
+  - 8
+  - "lts/*"
 
 script:
+  - npm run build
   - npm run test:unit
-  - npm run test:e2e-ci
 
 after_success:
   - npm install coveralls codacy-coverage
