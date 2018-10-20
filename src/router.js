@@ -3,6 +3,10 @@ import Router from 'vue-router'
 import Home from '@/views/Home.vue'
 import Register from '@/views/Register.vue'
 import Login from '@/views/Login.vue'
+
+import ListProblems from '@/views/ListProblems.vue'
+import ShowProblem from '@/views/ShowProblem.vue'
+
 import AdminNavigation from '@/views/admin/Navigation.vue'
 import AdminDefault from '@/views/admin/Default.vue'
 import AdminListProblems from '@/views/admin/ListProblems.vue'
@@ -30,6 +34,16 @@ export default new Router({
       path: '/login',
       name: 'Login',
       component: Login
+    },
+    {
+      path: '/problems/:page?',
+      name: 'Problems List',
+      component: ListProblems
+    },
+    {
+      path: '/problem/:pid',
+      name: 'Show Problem',
+      component: ShowProblem
     },
     {
       path: '/manage',

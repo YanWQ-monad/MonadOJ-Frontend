@@ -1,6 +1,7 @@
 <template>
   <div class="ui fixed menu">
     <router-link :to="{ name: 'Home' }" class="item" exact>HOME</router-link>
+    <router-link :to="{ name: 'Problems List' }" class="item" exact>Problems</router-link>
     <router-link
       :to="{ name: 'Admin Default' }"
       class="item"
