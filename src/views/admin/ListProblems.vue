@@ -19,10 +19,16 @@
         </tr>
       </tbody>
     </table>
+    <Paginate
+      :page="page"
+      routerKey="page"
+      routerType="direct"
+    />
   </div>
 </template>
 
 <script>
+import Paginate from '@/components/Paginate.vue'
 import { ajax } from '@/api'
 
 export default {
@@ -53,6 +59,9 @@ export default {
         params: { pid }
       })
     }
+  },
+  components: {
+    Paginate
   }
 }
 </script>
